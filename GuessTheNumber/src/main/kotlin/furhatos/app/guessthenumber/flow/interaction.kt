@@ -1,8 +1,11 @@
 package furhatos.app.guessthenumber.flow
 
+import furhatos.app.guessthenumber.nlu.*
 import furhatos.nlu.common.*
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
+import java.util.jar.Attributes
+import javax.naming.Name
 
 val Start : State = state(Interaction) {
 
@@ -13,6 +16,17 @@ val Start : State = state(Interaction) {
             {   furhat.ask("With you I am speaking with?")  },
             {   furhat.ask("What is your name?")    }
         )
+    }
+
+    onResponse<GetName> {
+        val name :String? = it.text
+        if (name != null ) {
+            furhat.say("Nice to meet you $name")
+        }
+        else {
+            furhat.say("Sorry, I did not understand.")
+            goto(Idle)
+        }
     }
 
     onResponse<Yes>{

@@ -7,6 +7,7 @@ val Idle: State = state {
 
     init {
         furhat.setVoice(Language.ENGLISH_US, Gender.MALE)
+        furhat.say("Welcome Ladies and gentlemen, I am ready to interact, and you?")
         if (users.count > 0) {
             furhat.attend(users.random)
             goto(Start)
