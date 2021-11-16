@@ -36,14 +36,23 @@ val Start : State = state(Interaction) {
 val AreYouHappy: State = state(Interaction) {
 
     onEntry {
-        furhat.ask("${users.current.name}, I am wondering, are you happy today?")
+        random(
+            {furhat.ask("${users.current.name}, I am wondering, are you happy today?")},
+            {furhat.ask("${users.current.name}, tell me, are you happy today?")},
+            {furhat.ask("${users.current.name}, are you happy today?")}
+        )
     }
 
     onResponse<Yes> {
         random(
             {furhat.say(utterance {+"Great to hear, then you are in the right mood!"
-                        + Gestures.Wink})},
-            {furhat.say(utterance {+Gestures.Smile
+                            + blocking {
+                                furhat.gesture(Gestures.Wink, async = false)
+                            }})},
+            {furhat.say(utterance {
+                        + blocking {
+                            furhat.gesture(Gestures.BigSmile, async = false)
+                                    }
                         + "Awesome! then let us start right away."})}
         )
         goto(RequestJokeTest)
@@ -52,10 +61,14 @@ val AreYouHappy: State = state(Interaction) {
     onResponse<No> {
         random(
             {furhat.say(utterance {+"I'm sorry to hear that."
-                        + Gestures.ExpressSad
+                        + blocking {
+                            furhat.gesture(Gestures.ExpressSad, async = false)
+                        }
                         + "Hmm, perhaps we can do something to cheer you up."})},
             {furhat.say(utterance {+"That is sad to hear."
-                        + Gestures.Thoughtful
+                        + blocking {
+                            furhat.gesture(Gestures.Thoughtful, async = false)
+                        }
                         + "Maybe I can cheer you up with this..."})}
         )
         goto(RequestJokeTest)
@@ -64,9 +77,13 @@ val AreYouHappy: State = state(Interaction) {
     onResponse {
         random(
             {furhat.say(utterance {+"Perhaps we can try to increase your happiness a few notches."
-                        + Gestures.Wink})},
+                            + blocking {
+                                furhat.gesture(Gestures.Wink, async = false)
+                            }})},
             {furhat.say(utterance {+"Let me see whether I can increase your happiness a few intches"
-                        + Gestures.Smile})}
+                            + blocking {
+                                furhat.gesture(Gestures.BigSmile, async = false)
+                            }})}
         )
         goto(RequestJokeTest)
     }
@@ -76,11 +93,17 @@ val RequestJokeTest: State = state(Interaction) {
     onEntry {
         random(
             {furhat.ask(utterance {+"I’m trying to learn some humor, you see. So. Could I test a few jokes on you?"
-                        + Gestures.Smile})},
+                            + blocking {
+                                furhat.gesture(Gestures.BigSmile, async = false)
+                            }})},
             {furhat.ask(utterance {+"My creator told me I should try to be a bit funnier. Could I test a few jokes on you?"
-                        + Gestures.Smile})},
+                            + blocking {
+                                furhat.gesture(Gestures.BigSmile, async = false)
+                            }})},
             {furhat.ask(utterance {+ "My designer always complains that I am not funny enough. Hence I learned a few jokes."
-                        + Gestures.Wink
+                        + blocking {
+                            furhat.gesture(Gestures.Wink, async = false)
+                        }
                         + "Could I test them out on you?"})}
         )
     }
@@ -101,6 +124,16 @@ val RequestJokeTest: State = state(Interaction) {
             {furhat.say("That is sad")}
         )
         furhat.say("But I respect that. There are certainly more funny things than a joking robot")
-        goto(Idle)
+
+        if (users.count > 1) {
+            furhat.attend(users.other)
+            random(
+                {furhat.ask("How about you? What is your name my friend?")},
+                {furhat.ask("How about you my friend? What is your name?")},
+                {furhat.ask("How about you? What is your name buddy?")}
+            )
+        } else {
+            goto(Idle)
+        }
     }
 }

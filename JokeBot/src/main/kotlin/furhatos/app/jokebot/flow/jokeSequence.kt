@@ -52,12 +52,18 @@ val JokeSequence: State = state(Interaction) {
 
     onResponse<No> {
         random(
-            {furhat.say(utterance{+ Gestures.Smile
+            {furhat.say(utterance{+ blocking {
+                        furhat.gesture(Gestures.BigSmile, async = false)
+                        }
                             + "Alright, thanks for letting me practice!"})},
-            {furhat.say(utterance {+ Gestures.Smile
+            {furhat.say(utterance {+ blocking {
+                        furhat.gesture(Gestures.BigSmile, async = false)
+                        }
                             + "Okay, it was nice though. Have a good day!"})},
             {furhat.say(utterance {+ "Alright"
-                            + Gestures.Wink
+                            + blocking {
+                                furhat.gesture(Gestures.Wink, async = false)
+                            }
                             + "It was nice meeting you!"})}
         )
         if (users.count > 1) {

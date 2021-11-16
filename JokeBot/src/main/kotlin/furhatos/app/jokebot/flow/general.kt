@@ -118,13 +118,19 @@ val Interaction: State = state(SmileBack) {
         if (users.current.name == "James"){
             random(
                 {furhat.say(utterance {+"Your name is also ${users.current.name}?"
-                    + Gestures.Surprise
+                    + blocking {
+                        furhat.gesture(Gestures.Surprise, async = false)
+                    }
                     + "What a funny coincidence!"})},
                 {furhat.say(utterance {+"What? Your name is also ${users.current.name}?"
-                    + Gestures.BigSmile
+                    + blocking {
+                        furhat.gesture(Gestures.BigSmile, async = false)
+                    }
                     + "How funny!"})},
                 {furhat.say(utterance {+"We are both named ${users.current.name}?"
-                    + Gestures.Surprise
+                    + blocking {
+                        furhat.gesture(Gestures.Surprise, async = false)
+                    }
                     + "What a funny coincidence!"})}
             )
         } else {
@@ -132,13 +138,17 @@ val Interaction: State = state(SmileBack) {
                 {
                     furhat.say(utterance {
                         +"${users.current.name}, what a wonderful name"
-                        +Gestures.Smile
+                        + blocking {
+                            furhat.gesture(Gestures.BigSmile, async = false)
+                        }
                     })
                 },
                 {
                     furhat.say(utterance {
                         +"${users.current.name}... I like that name!"
-                        +Gestures.Wink
+                        + blocking {
+                            furhat.gesture(Gestures.Wink, async = false)
+                        }
                     })
                 }
             )
