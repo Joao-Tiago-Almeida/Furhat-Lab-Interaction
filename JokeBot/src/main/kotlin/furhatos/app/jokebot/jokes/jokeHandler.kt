@@ -9,12 +9,17 @@ val BASIC_LIST_OF_JOKES = listOf(
         Joke("What do robots do at lunchtime", "have a mega-byte"),
         Joke("What happened when they shut down the robot motorway?", "Everyone had to take the R2 detour.", 1.0),
         Joke("Why was the robot bankrupt?", "He had used all his cache"),
-        Joke("Why did the robot marry his partner?", "He couldn't resistor"),
-        Joke("What does R2D2 use to open PDF files?", "Adobe. wan. kenobi."),
         Joke("Why do robots take holidays?", "To recharge their batteries"),
-        Joke("Who's a robot's favourite author?", "Anne. droid."),
         Joke("Why was the robot tired when it got home?", "it had a hard drive!"),
-        Joke("What is most important when telling jokes", "timing")
+        Joke("What do you call a robot who always runs into the wall?", "Wall-E"),
+        Joke("Why do you have to be careful with robot dogs?", "They byte"),
+        Joke("What happens to robots after they go defunct?", "They rust in peace"),
+        Joke("Why did the robot fall in love with the magnet", "He couldn't resist the attraction"),
+        Joke("How do robots pay for things?", "With cache, of course!"),
+        Joke("I bought a wooden computer, guess what?", "It wooden work!"),
+        Joke("Why did the robot sneeze?", "It had a virus"),
+        Joke("What do you get if you cross a robot with a tractor?", "A trans-farmer"),
+        Joke("What do you get if you cross a robot with a rock band?", "Heavy metal")
 )
 
 data class Joke(val intro: String, val punchline: String, var score: Double? = null)

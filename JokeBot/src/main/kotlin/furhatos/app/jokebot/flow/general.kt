@@ -3,8 +3,11 @@ package furhatos.app.jokebot.flow
 import furhatos.app.jokebot.jokes.indefiniteBigSmile
 import furhatos.app.jokebot.jokes.indefiniteSmile
 import furhatos.app.jokebot.jokes.stopSmile
+import furhatos.app.jokebot.name
 import furhatos.flow.kotlin.*
 import furhatos.flow.kotlin.voice.PollyNeuralVoice
+import furhatos.gestures.Gestures
+import furhatos.nlu.common.TellName
 import furhatos.skills.emotions.UserGestures
 import furhatos.util.*
 import kotlinx.coroutines.GlobalScope
@@ -93,8 +96,20 @@ val Interaction: State = state(SmileBack) {
         }
     }
 
-    onUserEnter(instant = true) {
-        furhat.glance(it)
+    onUserEnter() { // instant = true
+        var mainUser = users.current
+
+        // attend new entering user
+        furhat.attend(it)
+        random(
+            {furhat.say("Hello there! Lovely that you joined our small meeting.")},
+            {furhat.say("Hello! Nice to have more people joining today!")},
+            {furhat.say("Welcome! What a pleasure to see you")}
+        )
+        furhat.glance(mainUser)
+        furhat.attend(mainUser)
+
+        reentry()
     }
 
 }
