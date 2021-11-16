@@ -54,7 +54,7 @@ val AreYouHappy: State = state(Interaction) {
             {furhat.say(utterance {+"I'm sorry to hear that."
                         + Gestures.ExpressSad
                         + "Hmm, perhaps we can do something to cheer you up."})},
-            {furhat.say(utterance {+"That is sad to hear"
+            {furhat.say(utterance {+"That is sad to hear."
                         + Gestures.Thoughtful
                         + "Maybe I can cheer you up with this..."})}
         )

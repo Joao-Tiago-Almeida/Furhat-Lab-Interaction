@@ -114,12 +114,35 @@ val Interaction: State = state(SmileBack) {
 
     onResponse<TellName>{
         users.current.name = "${it.intent.name}"
-        random(
-            {furhat.say(utterance {+"${users.current.name}, what a wonderful name"
-                + Gestures.Smile})},
-            {furhat.say(utterance {+"${users.current.name}... I like that name!"
-                + Gestures.Wink})}
-        )
+
+        if (users.current.name == "James"){
+            random(
+                {furhat.say(utterance {+"Your name is also ${users.current.name}?"
+                    + Gestures.Surprise
+                    + "What a funny coincidence!"})},
+                {furhat.say(utterance {+"What? Your name is also ${users.current.name}?"
+                    + Gestures.BigSmile
+                    + "How funny!"})},
+                {furhat.say(utterance {+"We are both named ${users.current.name}?"
+                    + Gestures.Surprise
+                    + "What a funny coincidence!"})}
+            )
+        } else {
+            random(
+                {
+                    furhat.say(utterance {
+                        +"${users.current.name}, what a wonderful name"
+                        +Gestures.Smile
+                    })
+                },
+                {
+                    furhat.say(utterance {
+                        +"${users.current.name}... I like that name!"
+                        +Gestures.Wink
+                    })
+                }
+            )
+        }
         goto(AreYouHappy)
     }
 
