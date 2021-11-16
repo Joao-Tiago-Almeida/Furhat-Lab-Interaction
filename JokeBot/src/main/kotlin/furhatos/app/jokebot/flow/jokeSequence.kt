@@ -1,10 +1,12 @@
 package furhatos.app.jokebot.flow
 
 import furhatos.app.jokebot.jokes.*
+import furhatos.app.jokebot.name
 import furhatos.app.jokebot.nlu.BadJoke
 import furhatos.app.jokebot.nlu.GoodJoke
 import furhatos.app.jokebot.util.calculateJokeScore
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 import furhatos.nlu.common.No
 import furhatos.nlu.common.Yes
 import furhatos.skills.emotions.UserGestures
@@ -18,6 +20,9 @@ val JokeSequence: State = state(Interaction) {
 
     onEntry {
         //Get joke from the JokeHandler
+
+        furhat.say("Alright ${users.current.name}")
+
         val joke = JokeHandler.getJoke()
 
         //Build an utterance with the joke.
@@ -46,21 +51,33 @@ val JokeSequence: State = state(Interaction) {
     }
 
     onResponse<No> {
-        furhat.say("Alright, thanks for letting me practice!")
+        random(
+            {furhat.say(utterance{+ Gestures.Smile
+                            + "Alright, thanks for letting me practice!"})},
+            {furhat.say(utterance {+ Gestures.Smile
+                            + "Okay, it was nice though. Have a good day!"})},
+            {furhat.say(utterance {+ "Alright"
+                            + Gestures.Wink
+                            + "It was nice meeting you!"})}
+        )
         if (users.count > 1) {
             furhat.attend(users.other)
-            furhat.ask("How about you? do you want some jokes?")
+            random(
+                {furhat.ask("How about you? What is your name my friend?")},
+                {furhat.ask("How about you my friend? What is your name?")},
+                {furhat.ask("How about you? What is your name buddy?")}
+            )
         } else {
             goto(Idle)
         }
     }
 
-    onResponse {
-        furhat.ask("Yes or no?")
-    }
+    //onResponse {
+    //    furhat.ask("Yes or no?")
+    //}
 
     onNoResponse {
-        furhat.ask("I didn't hear you.")
+        furhat.ask("Sorry, I didn't hear you.")
     }
 }
 

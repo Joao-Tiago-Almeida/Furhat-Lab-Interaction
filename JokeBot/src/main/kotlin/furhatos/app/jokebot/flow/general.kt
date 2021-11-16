@@ -112,4 +112,15 @@ val Interaction: State = state(SmileBack) {
         reentry()
     }
 
+    onResponse<TellName>{
+        users.current.name = "${it.intent.name}"
+        random(
+            {furhat.say(utterance {+"${users.current.name}, what a wonderful name"
+                + Gestures.Smile})},
+            {furhat.say(utterance {+"${users.current.name}... I like that name!"
+                + Gestures.Wink})}
+        )
+        goto(AreYouHappy)
+    }
+
 }

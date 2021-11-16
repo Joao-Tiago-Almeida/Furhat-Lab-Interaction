@@ -15,15 +15,12 @@ val Start : State = state(Interaction) {
         )
     }
 
-    onResponse<TellName>{
-        users.current.name = "${it.intent.name}"
+    onReentry {
         random(
-            {furhat.say(utterance {+"${users.current.name}, what a wonderful name"
-                                  + Gestures.Smile})},
-            {furhat.say(utterance {+"${users.current.name}... I like that name!"
-                                   + Gestures.Wink})}
+            {furhat.ask("What is your name?")},
+            {furhat.ask("What was your name?")},
+            {furhat.ask("Your name is what?")}
         )
-        goto(AreYouHappy)
     }
 
     onNoResponse {
@@ -78,11 +75,11 @@ val AreYouHappy: State = state(Interaction) {
 val RequestJokeTest: State = state(Interaction) {
     onEntry {
         random(
-            {furhat.ask(utterance {+"I’m trying to learn some humor you see. So. Could I test a few jokes on you?"
+            {furhat.ask(utterance {+"I’m trying to learn some humor, you see. So. Could I test a few jokes on you?"
                         + Gestures.Smile})},
             {furhat.ask(utterance {+"My creator told me I should try to be a bit funnier. Could I test a few jokes on you?"
                         + Gestures.Smile})},
-            {furhat.ask(utterance {+ "My designer always complains that I am not funny enough. Hence, I learned a few jokes."
+            {furhat.ask(utterance {+ "My designer always complains that I am not funny enough. Hence I learned a few jokes."
                         + Gestures.Wink
                         + "Could I test them out on you?"})}
         )
