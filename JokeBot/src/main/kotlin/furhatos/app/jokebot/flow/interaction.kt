@@ -43,33 +43,67 @@ val AreYouHappy: State = state(Interaction) {
     }
 
     onResponse<Yes> {
-        furhat.say("Great to hear, then you are in the right mood!")
+        random(
+            {furhat.say(utterance {+"Great to hear, then you are in the right mood!"
+                        + Gestures.Wink})},
+            {furhat.say(utterance {+Gestures.Smile
+                        + "Awesome! then let us start right away."})}
+        )
         goto(RequestJokeTest)
     }
 
     onResponse<No> {
-        furhat.say("I'm sorry to hear that. Hmm, perhaps we can do something to cheer you up.")
+        random(
+            {furhat.say(utterance {+"I'm sorry to hear that."
+                        + Gestures.ExpressSad
+                        + "Hmm, perhaps we can do something to cheer you up."})},
+            {furhat.say(utterance {+"That is sad to hear"
+                        + Gestures.Thoughtful
+                        + "Maybe I can cheer you up with this..."})}
+        )
         goto(RequestJokeTest)
     }
 
     onResponse {
-        furhat.say("Perhaps we can try to increase your happiness a few notches.")
+        random(
+            {furhat.say(utterance {+"Perhaps we can try to increase your happiness a few notches."
+                        + Gestures.Wink})},
+            {furhat.say(utterance {+"Let me see whether I can increase your happiness a few intches"
+                        + Gestures.Smile})}
+        )
         goto(RequestJokeTest)
     }
 }
 
 val RequestJokeTest: State = state(Interaction) {
     onEntry {
-        furhat.ask("I’m trying to learn some humor you see. So. Could I test a few jokes on you?")
+        random(
+            {furhat.ask(utterance {+"I’m trying to learn some humor you see. So. Could I test a few jokes on you?"
+                        + Gestures.Smile})},
+            {furhat.ask(utterance {+"My creator told me I should try to be a bit funnier. Could I test a few jokes on you?"
+                        + Gestures.Smile})},
+            {furhat.ask(utterance {+ "My designer always complains that I am not funny enough. Hence, I learned a few jokes."
+                        + Gestures.Wink
+                        + "Could I test them out on you?"})}
+        )
     }
 
     onResponse<Yes> {
-        furhat.say("Awesome")
+        random(
+            {furhat.say("Awesome")},
+            {furhat.say("Great!")},
+            {furhat.say("Wonderful")}
+        )
         goto(JokeSequence)
     }
 
     onResponse<No> {
-        furhat.say("Oh, that’s a shame.")
+        random(
+            {furhat.say("Oh, that’s a shame.")},
+            {furhat.say("What a pity.")},
+            {furhat.say("That is sad")}
+        )
+        furhat.say("But I respect that. There are certainly more funny things than a joking robot")
         goto(Idle)
     }
 }
