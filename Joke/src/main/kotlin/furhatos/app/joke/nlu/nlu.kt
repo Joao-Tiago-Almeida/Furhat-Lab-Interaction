@@ -1,11 +1,7 @@
-package furhatos.app.guessthenumber.nlu
+package furhatos.app.joke.nlu
 
 import furhatos.nlu.Intent
 import furhatos.util.Language
-import furhatos.nlu.*
-import furhatos.nlu.grammar.Grammar
-import furhatos.nlu.kotlin.grammar
-import furhatos.nlu.common.Number
 
 /*
 open class GetName : Intent(), TextGenerator {
@@ -19,14 +15,12 @@ open class GetName : Intent(), TextGenerator {
             "is my name @name"
         )
     }
-
     override fun toText(lang: Language): String {
         return generate(
             lang,
             "[name is $name] | [I am $name] | [speaking with $name]"
         )
     }
-
     override fun toString(): String {
         return toText()
     }

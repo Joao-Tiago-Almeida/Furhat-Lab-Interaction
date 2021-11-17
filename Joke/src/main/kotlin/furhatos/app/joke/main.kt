@@ -1,10 +1,10 @@
-package furhatos.app.guessthenumber
+package furhatos.app.joke
 
-import furhatos.app.guessthenumber.flow.*
+import furhatos.app.joke.flow.*
 import furhatos.skills.Skill
 import furhatos.flow.kotlin.*
 
-class GuessthenumberSkill : Skill() {
+class JokeSkill : Skill() {
     override fun start() {
         Flow().run(Idle)
     }

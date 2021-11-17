@@ -1,4 +1,4 @@
-package furhatos.app.guessthenumber.flow
+package furhatos.app.joke.flow
 
 import furhatos.flow.kotlin.*
 import furhatos.util.*
@@ -6,10 +6,10 @@ import furhatos.util.*
 val Idle: State = state {
 
     init {
-        furhat.attendAll() 
+        furhat.attendAll()
         furhat.say("welcome!! I am a robot, r u also!? ahah joking ... please can yall introduce yourselves?")
         if (users.count > 0) {
-                furhat.attend(users.random)
+            furhat.attend(users.random)
             goto(Start)
         }
     }

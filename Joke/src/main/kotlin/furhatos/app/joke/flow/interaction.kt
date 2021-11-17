@@ -1,6 +1,6 @@
-package furhatos.app.guessthenumber.flow
+package furhatos.app.joke.flow
 
-import furhatos.app.guessthenumber.nlu.*
+import furhatos.app.joke.nlu.*
 import furhatos.nlu.common.*
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
