@@ -5,6 +5,7 @@ import furhatos.app.jokebot.name
 import furhatos.app.jokebot.nlu.BadJoke
 import furhatos.app.jokebot.nlu.GoodJoke
 import furhatos.app.jokebot.util.calculateJokeScore
+import furhatos.app.jokebot.wantsJoke
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
 import furhatos.nlu.common.No
@@ -75,6 +76,9 @@ val JokeSequence: State = state(Interaction) {
                             }
                             + "It was nice meeting you!"})}
         )
+
+        users.current.wantsJoke = false
+
         if (users.count > 1) {
             furhat.attend(users.other)
             random(
