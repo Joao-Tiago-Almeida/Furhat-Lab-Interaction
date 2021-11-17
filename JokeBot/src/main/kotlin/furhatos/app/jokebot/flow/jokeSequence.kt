@@ -118,18 +118,22 @@ val JokeScore: State = state(Interaction) {
 
     onResponse<GoodJoke>(instant = true) {
         saidGoodJoke = true
+        furhat.say("Good Joke")
     }
 
     onResponse<BadJoke>(instant = true) {
         saidBadJoke = true
+        furhat.say("Bad Joke")
     }
 
     onResponse(instant = true) {
         //Do nothing
+        furhat.say("At least a response")
     }
 
     onNoResponse(instant = true) {
         //Do nothing
+        furhat.say("I see, no response")
     }
 
     onUserGesture(UserGestures.Smile, cond = { it.isCurrentUser }, instant = true) {

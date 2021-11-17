@@ -19,3 +19,17 @@ class BadJoke: Intent() {
         )
     }
 }
+
+class Name : EnumEntity(stemming = false, speechRecPhrases = true) {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("Joao", "Victor", "Philipp", "Katie", "Manuel", "Alex", "Sofia", "Olivia", "Liam", "Emma", "Noah", "Amelia",
+            "Oliver", "Sophia", "Lucas", "Charlotte", "Levi", "James")
+    }
+}
+
+class TellNameBriefly(val name : Name? = null): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf(
+            "@name", "I am @name")
+    }
+}

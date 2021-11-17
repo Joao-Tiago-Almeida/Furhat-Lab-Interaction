@@ -4,6 +4,7 @@ import furhatos.app.jokebot.jokes.indefiniteBigSmile
 import furhatos.app.jokebot.jokes.indefiniteSmile
 import furhatos.app.jokebot.jokes.stopSmile
 import furhatos.app.jokebot.name
+import furhatos.app.jokebot.nlu.TellNameBriefly
 import furhatos.flow.kotlin.*
 import furhatos.flow.kotlin.voice.PollyNeuralVoice
 import furhatos.gestures.Gestures
@@ -107,9 +108,53 @@ val Interaction: State = state(SmileBack) {
             {furhat.say("Welcome! What a pleasure to see you")}
         )
         furhat.glance(mainUser)
-        furhat.attend(mainUser)
+        furhat.glance(mainUser)
 
         reentry()
+    }
+
+    onResponse<TellNameBriefly> {
+        users.current.name = "${it.intent.name}"
+
+        if (users.current.name == "James"){
+            random(
+                {furhat.say(utterance {+"Your name is also ${users.current.name}?"
+                    + blocking {
+                        furhat.gesture(Gestures.Surprise, async = false)
+                    }
+                    + "What a funny coincidence!"})},
+                {furhat.say(utterance {+"What? Your name is also ${users.current.name}?"
+                    + blocking {
+                        furhat.gesture(Gestures.BigSmile, async = false)
+                    }
+                    + "How funny!"})},
+                {furhat.say(utterance {+"We are both named ${users.current.name}?"
+                    + blocking {
+                        furhat.gesture(Gestures.Surprise, async = false)
+                    }
+                    + "What a funny coincidence!"})}
+            )
+        } else {
+            random(
+                {
+                    furhat.say(utterance {
+                        +"${users.current.name}, what a wonderful name"
+                        + blocking {
+                            furhat.gesture(Gestures.BigSmile, async = false)
+                        }
+                    })
+                },
+                {
+                    furhat.say(utterance {
+                        +"${users.current.name}... I like that name!"
+                        + blocking {
+                            furhat.gesture(Gestures.Wink, async = false)
+                        }
+                    })
+                }
+            )
+        }
+        goto(AreYouHappy)
     }
 
     onResponse<TellName>{
