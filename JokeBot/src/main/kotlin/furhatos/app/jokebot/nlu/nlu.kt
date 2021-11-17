@@ -22,8 +22,10 @@ class BadJoke: Intent() {
 
 class Name : EnumEntity(stemming = false, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("Joao", "Victor", "Philipp", "Katie", "Manuel", "Alex", "Sofia", "Olivia", "Liam", "Emma", "Noah", "Amelia",
-            "Oliver", "Sophia", "Lucas", "Charlotte", "Levi", "James")
+        return listOf(
+                "Joao", "Victor", "Philipp", "Katie", "Manuel", "Alex", "Sofia", "Olivia", "Liam", "Emma", "Noah", "Amelia",
+                "Oliver", "Sophia", "Lucas", "Charlotte", "Levi", "James", "Dennis","Elsa", "Marcel-Robert", "Iolanda", "Thomas", "Manuel", "Arzu", "Emil", "Laura",
+                "Edlidir", "Ola", "João", "Philip", "Kristin", "Isak", "Divya", "Alexander", "Mikael", "Miklovana", "Katie", "Elmira", "Ilaria")
     }
 }
 
