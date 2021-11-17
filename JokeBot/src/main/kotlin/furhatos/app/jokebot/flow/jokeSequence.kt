@@ -21,7 +21,12 @@ val JokeSequence: State = state(Interaction) {
     onEntry {
         //Get joke from the JokeHandler
 
-        furhat.say("Alright ${users.current.name}")
+        random(
+            {furhat.say("Alright ${users.current.name}")},
+            {furhat.say("Okay ${users.current.name}")},
+            {furhat.say("Alright then, ${users.current.name}")},
+            {furhat.say("${users.current.name}")}
+        )
 
         val joke = JokeHandler.getJoke()
 
@@ -30,7 +35,7 @@ val JokeSequence: State = state(Interaction) {
             +getJokeComment(joke.score) //Get comment on joke, using the score
             +delay(200) //Short delay
             +joke.intro //Deliver the intro of the joke
-            +delay(1500) //Always let the intro sink in
+            +delay(2500) //Always let the intro sink in
             +joke.punchline //Deliver the punchline of the joke.
         }
 
@@ -46,7 +51,11 @@ val JokeSequence: State = state(Interaction) {
     }
 
     onResponse<Yes> {
-        furhat.say("Sweet!")
+        random(
+            {furhat.say("Sweet!")},
+            {furhat.say("Awesome!")},
+            {furhat.say("Great!")}
+        )
         reentry()
     }
 
@@ -83,7 +92,11 @@ val JokeSequence: State = state(Interaction) {
     //}
 
     onNoResponse {
-        furhat.ask("Sorry, I didn't hear you.")
+        random(
+            {furhat.ask("Sorry, I didn't hear you.")},
+            {furhat.ask("Sorry, could you repeat that?")},
+            {furhat.ask("Sorry, could you say that one more time?")}
+        )
     }
 }
 

@@ -108,6 +108,23 @@ val RequestJokeTest: State = state(Interaction) {
         )
     }
 
+    onReentry {
+        random(
+            {furhat.ask(utterance {+"${users.current.name}, could I test a few jokes on you?"
+                + blocking {
+                    furhat.gesture(Gestures.BigSmile, async = false)
+                }})},
+            {furhat.ask(utterance {+"Could I test a few jokes on you?"
+                + blocking {
+                    furhat.gesture(Gestures.BigSmile, async = false)
+                }})},
+            {furhat.ask(utterance {+"Could I test some jokes out on you ${users.current.name}?"
+                    + blocking {
+                furhat.gesture(Gestures.BigSmile, async = false)
+            }})}
+        )
+    }
+
     onResponse<Yes> {
         random(
             {furhat.say("Awesome")},

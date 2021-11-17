@@ -7,11 +7,10 @@ import furhatos.util.CommonUtils
 val BASIC_LIST_OF_JOKES = listOf(
         Joke("What do robots eat as snacks", "micro-chips"),
         Joke("What do robots do at lunchtime", "have a mega-byte"),
-        Joke("What happened when they shut down the robot motorway?", "Everyone had to take the R2 detour.", 1.0),
         Joke("Why was the robot bankrupt?", "He had used all his cache"),
         Joke("Why do robots take holidays?", "To recharge their batteries"),
         Joke("Why was the robot tired when it got home?", "it had a hard drive!"),
-        Joke("What do you call a robot who always runs into the wall?", "Wall-E"),
+        Joke("What do you call a robot who always runs into the wall?", "Wall-E", 1.0),
         Joke("Why do you have to be careful with robot dogs?", "They byte"),
         Joke("What happens to robots after they go defunct?", "They rust in peace"),
         Joke("Why did the robot fall in love with the magnet", "He couldn't resist the attraction"),
