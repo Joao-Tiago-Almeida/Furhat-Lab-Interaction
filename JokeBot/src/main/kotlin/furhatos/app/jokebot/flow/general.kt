@@ -5,6 +5,7 @@ import furhatos.app.jokebot.jokes.indefiniteSmile
 import furhatos.app.jokebot.jokes.stopSmile
 import furhatos.app.jokebot.name
 import furhatos.app.jokebot.nlu.TellNameBriefly
+import furhatos.app.jokebot.wantsJoke
 import furhatos.flow.kotlin.*
 import furhatos.flow.kotlin.voice.PollyNeuralVoice
 import furhatos.gestures.Gestures
@@ -19,19 +20,30 @@ val Idle: State = state {
 
     init {
         furhat.voice = PollyNeuralVoice.Matthew()
+        furhat.attendAll()
         if (users.count > 0) {
             furhat.attend(users.random)
-            goto(Start)
+            goto(SelfPresent)
         }
     }
 
     onEntry {
-        furhat.attendNobody()
+        if (users.other.name == null) {
+            furhat.attend(users.other)
+            goto(Start)
+        }
+        else {
+            if (users.current.wantsJoke == true) {
+                goto(AreYouHappy)
+            } else {
+                furhat.attendNobody()
+            }
+        }
     }
 
     onUserEnter {
         furhat.attend(it)
-        goto(Start)
+        goto(SelfPresent)
     }
 }
 
@@ -115,6 +127,7 @@ val Interaction: State = state(SmileBack) {
 
     onResponse<TellNameBriefly> {
         users.current.name = "${it.intent.name}"
+        users.current.wantsJoke = true
 
         if (users.current.name == "James"){
             random(
@@ -154,11 +167,12 @@ val Interaction: State = state(SmileBack) {
                 }
             )
         }
-        goto(AreYouHappy)
+        goto(Idle)
     }
 
     onResponse<TellName>{
         users.current.name = "${it.intent.name}"
+        users.current.wantsJoke = true
 
         if (users.current.name == "James"){
             random(
@@ -198,7 +212,7 @@ val Interaction: State = state(SmileBack) {
                 }
             )
         }
-        goto(AreYouHappy)
+        goto(Idle)
     }
 
 }

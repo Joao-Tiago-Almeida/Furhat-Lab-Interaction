@@ -1,17 +1,19 @@
 package furhatos.app.jokebot.flow
 
 import furhatos.app.jokebot.name
+import furhatos.app.jokebot.wantsJoke
 import furhatos.nlu.common.*
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
+
 
 val Start : State = state(Interaction) {
 
     onEntry {
         random(
-            {furhat.ask("Hi there. It is a pleasure to meet you. I am James. What is your name?")},
-            {furhat.ask("Hello my friend. Glad to meet you! My name is James. What is your name?")},
-            {furhat.ask("Hi there. What a pleasure meeting you. My name is James. What is your name?")}
+            {furhat.ask("And what about you? What is your name?")},
+            {furhat.ask("And what is your name?")},
+            {furhat.ask("And your name is what?")}
         )
     }
 
@@ -33,9 +35,21 @@ val Start : State = state(Interaction) {
     }
 }
 
+val SelfPresent : State = state(Start){
+    onEntry {
+        random(
+            {furhat.ask("Hi there. It is a pleasure to meet you. I am James. What is your name?")},
+            {furhat.ask("Hello my friend. Glad to meet you! My name is James. What is your name?")},
+            {furhat.ask("Hi there. What a pleasure meeting you. My name is James. What is your name?")}
+        )
+    }
+}
+
 val AreYouHappy: State = state(Interaction) {
 
     onEntry {
+        furhat.attend(users.random)
+
         random(
             {furhat.ask("${users.current.name}, I am wondering, are you happy today?")},
             {furhat.ask("${users.current.name}, tell me, are you happy today?")},
@@ -142,12 +156,15 @@ val RequestJokeTest: State = state(Interaction) {
         )
         furhat.say("But I respect that. There are certainly more funny things than a joking robot")
 
-        if (users.count > 1) {
+        users.current.wantsJoke = false
+
+        if (users.count > 1 && users.other.wantsJoke == true) {
             furhat.attend(users.other)
+
             random(
-                {furhat.ask("How about you? What is your name my friend?")},
-                {furhat.ask("How about you my friend? What is your name?")},
-                {furhat.ask("How about you? What is your name buddy?")}
+                {furhat.ask("How about you ${users.current.name}? Do you want to hear a joke?")},
+                {furhat.ask("How about you my friend?")},
+                {furhat.ask("How about you ${users.current.name}? Wanna hear a joke?")}
             )
         } else {
             goto(Idle)
