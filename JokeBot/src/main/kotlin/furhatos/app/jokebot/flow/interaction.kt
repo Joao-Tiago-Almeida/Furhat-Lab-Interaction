@@ -8,47 +8,60 @@ import furhatos.gestures.Gestures
 
 
 val Start : State = state(Interaction) {
+    val name : String = "Katie"
 
     onEntry {
-        random(
-            {furhat.ask("And what about you? What is your name?")},
-            {furhat.ask("And what is your name?")},
-            {furhat.ask("And your name is what?")}
-        )
+        if(users.current.name == null) {
+            random(
+                { furhat.ask("And what about you? What is your name?") },
+                { furhat.ask("And what is your name?") },
+                { furhat.ask("And your name is what?") }
+            )
+        }
+        else {
+            goto(Idle)
+        }
     }
 
     onReentry {
-        random(
-            {furhat.ask("What is your name?")},
-            {furhat.ask("What was your name?")},
-            {furhat.ask("Your name is what?")}
-        )
+        if(users.current.name == null) {
+            random(
+                { furhat.ask("What is your name?") },
+                { furhat.ask("What was your name?") },
+                { furhat.ask("Your name is what?") }
+            )
+        }
+        else {
+            goto(Idle)
+        }
     }
 
     onNoResponse {
-        random(
-            {furhat.ask("Hello? Sorry, you might have missed that. I was asking for your name?")},
-            {furhat.ask("Hello, somebody out there? My name is James, what is yours?")},
-            {furhat.ask("Did you say something? Sorry I might have missed that. What is your name again?")}
-        )
-        //goto(AreYouHappy)
+        if(users.current.name == null) {
+            random(
+                { furhat.ask("Hello? Sorry, you might have missed that. I was asking for your name?") },
+                { furhat.ask("Hello, somebody out there? My name is $name, what is yours?") },
+                { furhat.ask("Did you say something? Sorry I might have missed that. What is your name again?") }
+            )
+        }
     }
 }
 
-val SelfPresent : State = state(Start){
+val SelfPresent : State = state{
+    val name : String = "Katie"
     onEntry {
         random(
-            {furhat.ask("Hi there. It is a pleasure to meet you. I am James. What is your name?")},
-            {furhat.ask("Hello my friend. Glad to meet you! My name is James. What is your name?")},
-            {furhat.ask("Hi there. What a pleasure meeting you. My name is James. What is your name?")}
+            {furhat.say("Hi there. It is a pleasure to meet you. I am $name.")},
+            {furhat.say("Hello my friend. Glad to meet you! My name is $name.")},
+            {furhat.say("Hi there. What a pleasure meeting you. My name is $name.")}
         )
+        goto(Start)
     }
 }
 
 val AreYouHappy: State = state(Interaction) {
 
     onEntry {
-        furhat.attend(users.random)
 
         random(
             {furhat.ask("${users.current.name}, I am wondering, are you happy today?")},

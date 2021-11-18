@@ -10,15 +10,21 @@ val BASIC_LIST_OF_JOKES = listOf(
         Joke("Why was the robot bankrupt?", "He had used all his cache"),
         Joke("Why do robots take holidays?", "To recharge their batteries"),
         Joke("Why was the robot tired when it got home?", "it had a hard drive!"),
-        Joke("What do you call a robot who always runs into the wall?", "Wall-E", 1.0),
+        Joke("What do you call a robot who always runs into the wall?", "Wall-E"),
         Joke("Why do you have to be careful with robot dogs?", "They byte"),
-        Joke("What happens to robots after they go defunct?", "They rust in peace"),
         Joke("Why did the robot fall in love with the magnet", "He couldn't resist the attraction"),
-        Joke("How do robots pay for things?", "With cache, of course!"),
+        Joke("How do robots pay for things?", "With cache"),
         Joke("I bought a wooden computer, guess what?", "It wooden work!"),
         Joke("Why did the robot sneeze?", "It had a virus"),
         Joke("What do you get if you cross a robot with a tractor?", "A trans-farmer"),
-        Joke("What do you get if you cross a robot with a rock band?", "Heavy metal")
+        Joke("What do you get if you cross a robot with a rock band?", "Heavy metal"),
+        Joke("Why does everyone fall asleep in Professor Robot's flying class?", "Because he drones on and on"),
+        Joke("How did the robot's teacher mark her book?", "With robo-ticks"),
+        Joke("What name should you never call a robot?", "Rusty"),
+        Joke("Why are robots shy?", "Because they've got hardware and software but no underwear"),
+        Joke("What do you call it when two robots go to a restaurant?", "A dinner data"),
+        Joke("What do you call a Swedish robot?", "A snowbot."),
+        Joke("Why was the robot banned from driving?", "She beeped too much")
 )
 
 data class Joke(val intro: String, val punchline: String, var score: Double? = null)
