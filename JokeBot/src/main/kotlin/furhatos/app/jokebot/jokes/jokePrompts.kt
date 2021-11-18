@@ -73,38 +73,38 @@ private val negativeCommentSmileResponse = listOf(
 )
 
 private val negativeCommentNoSmileResponse = listOf(
-        "This is not your kind of joke, noted.",
-        "Terrible joke, I am sorry",
-        "I see, this seems not to be your kind of humor, sorry.",
-        "Ouch, I guess I need to work on that one a bit."
+        "I see that you didn't smile, so this is not your kind of joke, noted.",
+        "Terrible joke, I am sorry. I see that you did not even smile.",
+        "I see that you did not even smile. This seems not to be your kind of humor, sorry.",
+        "Ouch, I guess I need to work on that one a bit more, such that I can make you smile next time"
 )
 
 private val positiveCommentNoSmileResponse = listOf(
         "But it didn't make you smile.",
-        "I'm not sure if you're being sarcastic right now.",
+        "I'm not sure if you're being sarcastic right now. You did not even smile.",
         "Hmm, your face shows a different reaction, at least it didn't make you smile.",
         "But you didn't smile."
 )
 
 private val positiveCommentSmileResponse = listOf(
-        "Wow! You really liked this joke!",
-        "This is a very enjoyable joke",
-        "We have the same sense of humor, amazing!",
-        "Glad that you liked this one!"
+        "Wow, this made you smile! You really liked this joke!",
+        "This is a very enjoyable joke, I can see it on your face.",
+        "I can see on your face that we have the same sense of humor, amazing!",
+        "Glad that you liked this one! Love to see you smile."
 )
 
 private val noSmileResponse = listOf(
-        "Not that funny? Noted.",
-        "No? Alright.",
-        "Not your style? I see..",
-        "You didn't like that one? Okay."
+        "Not that funny? Noted. Next time I try to make you smile.",
+        "No? Alright. I try to find a joke that makes you smile next time.",
+        "Not your style? I see ...",
+        "You didn't like that one? No smile at all? Okay."
 )
 
 private val smileResponse = listOf(
-        "I'm glad you liked it.",
-        "Not bad right?",
-        "Yay, I'm getting the hang of this.",
-        "Happy to see that you liked it."
+        "I'm glad that this one made you smile.",
+        "Not bad right? At least it made you smile.",
+        "Yay, I'm getting the hang of this, I already made you smile.",
+        "Happy to see you smile."
 )
 
 val continuePrompt = listOf(
