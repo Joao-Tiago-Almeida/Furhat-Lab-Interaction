@@ -1,5 +1,5 @@
 package furhatos.app.jokebot.flow
-
+// -Dfurhatos.skills.brokeraddress=127.0.0.1
 import furhatos.app.jokebot.jokes.indefiniteBigSmile
 import furhatos.app.jokebot.jokes.indefiniteSmile
 import furhatos.app.jokebot.jokes.stopSmile
@@ -10,6 +10,7 @@ import furhatos.flow.kotlin.*
 import furhatos.flow.kotlin.voice.PollyNeuralVoice
 import furhatos.gestures.Gestures
 import furhatos.nlu.common.TellName
+import furhatos.nlu.common.Yes
 import furhatos.skills.emotions.UserGestures
 import furhatos.util.*
 import kotlinx.coroutines.GlobalScope
@@ -19,8 +20,9 @@ import kotlinx.coroutines.launch
 val Idle: State = state {
 
     init {
-        furhat.voice = PollyNeuralVoice.Matthew()
-        furhat.attendAll()
+        furhat.voice = PollyNeuralVoice.Joanna()
+        furhat.mask = "Fedora"
+        furhat.attendNobody()
         if (users.count > 0) {
             furhat.attend(users.random)
             goto(SelfPresent)
@@ -34,6 +36,7 @@ val Idle: State = state {
         }
         else {
             if (users.current.wantsJoke == true) {
+                furhat.attend(users.random)
                 goto(AreYouHappy)
             } else {
                 furhat.attendNobody()
@@ -45,6 +48,7 @@ val Idle: State = state {
         furhat.attend(it)
         goto(SelfPresent)
     }
+
 }
 
 /**
@@ -95,7 +99,7 @@ val SmileBack: State = state {
 }
 
 val Interaction: State = state(SmileBack) {
-
+    val robotName : String = "Katie"
     onUserLeave(instant = true) {
         if (users.count > 0) {
             if (it == users.current) {
@@ -117,10 +121,10 @@ val Interaction: State = state(SmileBack) {
         random(
             {furhat.say("Hello there! Lovely that you joined our small meeting.")},
             {furhat.say("Hello! Nice to have more people joining today!")},
-            {furhat.say("Welcome! What a pleasure to see you")}
+            {furhat.say("Welcome! What a pleasure to see you.")}
         )
         furhat.glance(mainUser)
-        furhat.glance(mainUser)
+        furhat.attend(mainUser)
 
         reentry()
     }
@@ -129,7 +133,7 @@ val Interaction: State = state(SmileBack) {
         users.current.name = "${it.intent.name}"
         users.current.wantsJoke = true
 
-        if (users.current.name == "James"){
+        if (users.current.name == "Katie"){
             random(
                 {furhat.say(utterance {+"Your name is also ${users.current.name}?"
                     + blocking {
@@ -174,7 +178,7 @@ val Interaction: State = state(SmileBack) {
         users.current.name = "${it.intent.name}"
         users.current.wantsJoke = true
 
-        if (users.current.name == "James"){
+        if (users.current.name == robotName){
             random(
                 {furhat.say(utterance {+"Your name is also ${users.current.name}?"
                     + blocking {
@@ -215,4 +219,47 @@ val Interaction: State = state(SmileBack) {
         goto(Idle)
     }
 
+    onResponse {
+
+        if (users.current.name == null) {
+            furhat.say(utterance {
+                +"This is what I heard:"
+                +delay(200)
+                +it.text
+            })
+
+
+            val validate: Boolean? = furhat.askYN(utterance {
+                +delay(200)
+                +"Is that your name?"
+            })
+
+            if (validate == true) {
+                users.current.name = it.text
+                users.current.wantsJoke = true
+                random(
+                    {
+                        furhat.say(utterance {
+                            +"${users.current.name}, what a wonderful name I just learned"
+                            +blocking {
+                                furhat.gesture(Gestures.BigSmile, async = false)
+                            }
+                        })
+                    },
+                    {
+                        furhat.say(utterance {
+                            +"${users.current.name}... Ohh one more beautiful name I learned"
+                            +blocking {
+                                furhat.gesture(Gestures.Wink, async = false)
+                            }
+                        })
+                    }
+                )
+            }
+            else{
+                furhat.attend(users.other)
+            }
+            goto(Idle)
+        }
+    }
 }

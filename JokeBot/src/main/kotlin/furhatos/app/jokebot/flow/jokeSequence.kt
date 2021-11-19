@@ -36,12 +36,12 @@ val JokeSequence: State = state(Interaction) {
             +getJokeComment(joke.score) //Get comment on joke, using the score
             +delay(200) //Short delay
             +joke.intro //Deliver the intro of the joke
-            +delay(2500) //Always let the intro sink in
-            +joke.punchline //Deliver the punchline of the joke.
+            +delay(500) //Short delay
+            +joke.punchline
         }
 
         furhat.say(utterance)
-
+        
         /**
          * Calls a state which we know returns a joke score.
          */
@@ -57,6 +57,7 @@ val JokeSequence: State = state(Interaction) {
             {furhat.say("Awesome!")},
             {furhat.say("Great!")}
         )
+        furhat.attend(users.random)
         reentry()
     }
 
@@ -79,33 +80,36 @@ val JokeSequence: State = state(Interaction) {
 
         users.current.wantsJoke = false
 
-        if (users.count > 1) {
+        if (users.other.wantsJoke == true) {
             furhat.attend(users.other)
             random(
-                {furhat.ask("How about you? What is your name my friend?")},
-                {furhat.ask("How about you my friend? What is your name?")},
-                {furhat.ask("How about you? What is your name buddy?")}
+                {furhat.say("How about you.")},
+                {furhat.say("Maybe you.")},
+                {furhat.say("Perhaps you.")},
+                {furhat.say("I will have a shoot on you.")},
+                {furhat.say("Let me focus on you now.")}
             )
+            goto(AreYouHappy)
         } else {
             goto(Idle)
         }
     }
 
-    //onResponse {
-    //    furhat.ask("Yes or no?")
-    //}
-
     onNoResponse {
         random(
-            {furhat.ask("Sorry, I didn't hear you.")},
-            {furhat.ask("Sorry, could you repeat that?")},
-            {furhat.ask("Sorry, could you say that one more time?")}
+            {furhat.say("Sorry, I didn't hear you.")},
+            {furhat.say("Sorry, could you repeat that?")},
+            {furhat.say("Sorry, could you say that one more time?")}
+        )
+        random(
+            {furhat.ask("Yes or no?")},
+            {furhat.ask("Sorry, could you try a shorter answer. Perhaps yes or no?")},
+            {furhat.ask("Sorry, you give me a yes or no answer?")}
         )
     }
 }
-
 /**
- * This state records the users reaction to a joke, and terminates with calculated joke value.
+ * This state records the users' reaction to a joke, and terminates with calculated joke value.
  * Joke value is based on if the user smiled and/or the user said it was a good/bad joke.
  */
 val JokeScore: State = state(Interaction) {
