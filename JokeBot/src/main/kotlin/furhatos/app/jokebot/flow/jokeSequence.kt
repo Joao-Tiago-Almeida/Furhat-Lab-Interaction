@@ -36,7 +36,7 @@ val JokeSequence: State = state(Interaction) {
             +getJokeComment(joke.score) //Get comment on joke, using the score
             +delay(200) //Short delay
             +joke.intro //Deliver the intro of the joke
-            +delay(500) //Short delay
+            +delay(2000) //Short delay
             +joke.punchline
         }
 

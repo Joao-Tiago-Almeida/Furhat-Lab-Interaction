@@ -18,7 +18,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 val Idle: State = state {
-
     init {
         furhat.voice = PollyNeuralVoice.Joanna()
         furhat.mask = "Fedora"
@@ -30,17 +29,48 @@ val Idle: State = state {
     }
 
     onEntry {
-        if (users.other.name == null) {
-            furhat.attend(users.other)
-            goto(Start)
-        }
-        else {
-            if (users.current.wantsJoke == true) {
-                furhat.attend(users.random)
-                goto(AreYouHappy)
+        if (users.count > 0) {
+            if (users.other.name == null) {
+                furhat.attend(users.other)
+                goto(Start)
             } else {
-                furhat.attendNobody()
+                if (users.current.wantsJoke == true) { // what if users.other.wantsJoke?
+                    furhat.attend(users.random)
+                    goto(AreYouHappy)
+                } else {
+                    furhat.attendNobody()
+                }
             }
+        } else {
+            random(
+                {
+                    furhat.say(utterance {
+                        +blocking {
+                            furhat.gesture(Gestures.ExpressSad, async = false)
+                        }
+                        +"Seems like I am a lonely robot!"
+                    })
+                },
+                {
+                    furhat.say(utterance {
+                        +blocking {
+                            furhat.gesture(Gestures.ExpressSad, async = false)
+                        }
+                        +"Seems like I am all by myself."
+                    })
+                },
+                {
+                    furhat.say(utterance {
+                        +"Seems like I am a lonely robot."
+                        +blocking {
+                            furhat.gesture(Gestures.ExpressSad, async = false)
+                        }
+                        +"Any human out there?"
+                    })
+                }
+            )
+
+            furhat.attendNobody()
         }
     }
 
@@ -133,7 +163,7 @@ val Interaction: State = state(SmileBack) {
         users.current.name = "${it.intent.name}"
         users.current.wantsJoke = true
 
-        if (users.current.name == "Katie"){
+        if (users.current.name == robotName){
             random(
                 {furhat.say(utterance {+"Your name is also ${users.current.name}?"
                     + blocking {
@@ -222,12 +252,20 @@ val Interaction: State = state(SmileBack) {
     onResponse {
 
         if (users.current.name == null) {
-            furhat.say(utterance {
-                +"This is what I heard:"
+            random(
+                {furhat.say(utterance {
+                +"Did you say:"
                 +delay(200)
                 +it.text
-            })
-
+                +"?"
+                })},
+                {furhat.say(utterance {
+                    +"I heard:"
+                    +delay(200)
+                    +it.text
+                    +"?"
+                })}
+            )
 
             val validate: Boolean? = furhat.askYN(utterance {
                 +delay(200)
@@ -240,7 +278,7 @@ val Interaction: State = state(SmileBack) {
                 random(
                     {
                         furhat.say(utterance {
-                            +"${users.current.name}, what a wonderful name I just learned"
+                            +"${users.current.name}, what a wonderful name I just learned."
                             +blocking {
                                 furhat.gesture(Gestures.BigSmile, async = false)
                             }
@@ -248,7 +286,7 @@ val Interaction: State = state(SmileBack) {
                     },
                     {
                         furhat.say(utterance {
-                            +"${users.current.name}... Ohh one more beautiful name I learned"
+                            +"${users.current.name}... Ohh one more beautiful name I learned."
                             +blocking {
                                 furhat.gesture(Gestures.Wink, async = false)
                             }
@@ -257,9 +295,31 @@ val Interaction: State = state(SmileBack) {
                 )
             }
             else{
-                furhat.attend(users.other)
+                random(
+                    {furhat.ask("So what is your name?")},
+                    {furhat.ask("Okay, could you repeat your name then?")},
+                    {furhat.ask("Oh sorry, so what is your name?")}
+                )
+                //furhat.attend(users.other)
             }
             goto(Idle)
         }
     }
+
+    /*
+    onNoResponse {
+        if (users.count == 0){
+            goto(Idle)
+        }
+        else {
+            random(
+                {furhat.say("Hello? Did you here me?")},
+                {furhat.say("Hello? Are you there?")},
+                {furhat.say("Hello? Did you hear what I said?")}
+            )
+            reentry()
+        }
+    }
+    */
+
 }

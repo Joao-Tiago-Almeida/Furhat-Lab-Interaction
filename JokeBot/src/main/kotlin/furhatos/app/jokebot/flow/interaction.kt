@@ -5,6 +5,7 @@ import furhatos.app.jokebot.wantsJoke
 import furhatos.nlu.common.*
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
+import khttp.async
 
 
 val Start : State = state(Interaction) {
@@ -39,10 +40,11 @@ val Start : State = state(Interaction) {
     onNoResponse {
         if(users.current.name == null) {
             random(
-                { furhat.ask("Hello? Sorry, you might have missed that. I was asking for your name?") },
-                { furhat.ask("Hello, somebody out there? My name is $name, what is yours?") },
-                { furhat.ask("Did you say something? Sorry I might have missed that. What is your name again?") }
+                { furhat.say("Hello? Sorry, you might have missed that.")}, // I was asking for your name?") },
+                { furhat.say("Hello, somebody out there?") },
+                { furhat.say("Did you say something?")} // Sorry I might have missed that. What is your name again?") }
             )
+            furhat.ask("My name is $name, what is yours?")
         }
     }
 }
@@ -167,7 +169,11 @@ val RequestJokeTest: State = state(Interaction) {
             {furhat.say("What a pity.")},
             {furhat.say("That is sad")}
         )
-        furhat.say("But I respect that. There are certainly more funny things than a joking robot")
+        random(
+            {furhat.say("But I respect that. There are certainly more funny things than a joking robot.")},
+            {furhat.say("However, I understand that. There might be more funny things than a robot joking.")},
+            {furhat.say("But no problem. I understand that there are more funny things than a joking robot.")}
+        )
 
         users.current.wantsJoke = false
 
