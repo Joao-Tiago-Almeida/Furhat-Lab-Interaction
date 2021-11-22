@@ -98,13 +98,26 @@ val JokeSequence: State = state(Interaction) {
     onNoResponse {
         random(
             {furhat.say("Sorry, I didn't hear you.")},
-            {furhat.say("Sorry, could you repeat that?")},
-            {furhat.say("Sorry, could you say that one more time?")}
+            {furhat.say("Sorry, I did't get that.")},
+            {furhat.say("Sorry,")}
         )
         random(
-            {furhat.ask("Yes or no?")},
-            {furhat.ask("Sorry, could you try a shorter answer. Perhaps yes or no?")},
-            {furhat.ask("Sorry, you give me a yes or no answer?")}
+            {furhat.ask("What did you say?")},
+            {furhat.ask("Could you repeat that?")},
+            {furhat.ask("Could you give me a yes or no answer?")}
+        )
+    }
+
+    onResponse {
+        random(
+            {furhat.say("Sorry, I didn't hear you.")},
+            {furhat.say("Sorry,")}
+        )
+
+        random(
+            {furhat.ask("Do you mean yes or no?")},
+            {furhat.ask("Could you try a shorter answer, perhaps yes or no?")},
+            {furhat.ask("Could you give me a yes or no answer?")}
         )
     }
 }

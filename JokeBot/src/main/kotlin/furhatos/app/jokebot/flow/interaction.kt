@@ -189,4 +189,13 @@ val RequestJokeTest: State = state(Interaction) {
             goto(Idle)
         }
     }
+
+    onResponse {
+        random(
+            {furhat.ask("Sorry ${users.current.name}, could you repeat that?")},
+            {furhat.ask("Sorry I didn't get what you were saying. Do you want me to tell you a joke?")},
+            {furhat.ask("Sorry I didn't understand that. Do you want to hear a joke?")}
+        )
+        reentry()
+    }
 }
